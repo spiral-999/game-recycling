@@ -1,0 +1,74 @@
+body {
+  margin: 0;
+  font-family: "Comic Sans MS", "Poppins", sans-serif;
+  background: linear-gradient(90deg, #a8ffb5, #d4ffe1);
+  color: #1b4332;
+}
+
+/* HEADER ------------------------------------------------------ */
+
+.header {
+  text-align: center;
+  padding: 3rem 1rem 2rem;
+  color: #1b4332;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.title {
+  font-size: 3rem;
+  margin: 0;
+  text-shadow: 2px 2px #ffffff;
+}
+
+.highlight {
+  color: #1a9d5c;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
+  color: #245c44;
+  font-weight: bold;
+}
+
+/* MENU BUTTONS ------------------------------------------------ */
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* Botão estilo gamificado para crianças */
+.menu-button {
+  width: 300px;
+  padding: 1.2rem;
+  font-size: 1.4rem;
+  font-weight: bold;
+  background: #fff176; /* amarelo suave */
+  color: #4a3f00;
+  border: 3px solid #ffca28;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 6px #f4a261;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.menu-button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px #e76f51;
+}
+
+/* Efeito de “clicado” estilo game */
+.menu-button:active {
+  transform: translateY(3px);
+  box-shadow: 0 3px #e76f51;
+}
+
+/* ANIMAÇÕES --------------------------------------------------- */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
