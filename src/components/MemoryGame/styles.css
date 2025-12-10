@@ -1,36 +1,71 @@
 .memory-container {
-  text-align: center;
+  /* Centralização Absoluta */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
   padding: 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.3); /* Fundo leve para destacar o jogo */
+}
+
+/* Score */
+.score {
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #1b5e20;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 8px 25px;
+  border-radius: 20px;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+  z-index: 10;
 }
 
 .reset-btn {
-  padding: 10px 20px;
-  margin-bottom: 20px;
-  cursor: pointer;
-  font-size: 18px;
-  border-radius: 10px;
-  background: #4caf50;
-  color: white;
+  margin-bottom: 25px;
+  background-color: #ffca28;
+  color: #5d4037;
   border: none;
-}
-
-.score {
-  font-size: 22px;
-  margin-bottom: 10px;
+  padding: 8px 25px;
+  font-size: 1.1rem;
   font-weight: bold;
-  color: #2e7d32;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #f57f17;
+  z-index: 10;
 }
 
+.reset-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #f57f17;
+}
+
+/* GRID ALTERADO: 2 LINHAS x 6 COLUNAS */
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 130px);
-  gap: 20px;
-  justify-content: center;
+  /* Cria 6 colunas de tamanho igual */
+  grid-template-columns: repeat(6, 1fr); 
+  gap: 15px;
+  width: 100%;
+  max-width: 800px; /* Aumentei a largura máxima para caber as 6 colunas */
+  /* Removi o aspect-ratio: 1 do container para ele não forçar ser quadrado */
 }
 
+/* CARTA */
 .card {
-  width: 130px;
-  height: 130px;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1; /* A carta continua quadrada */
+  cursor: pointer;
   perspective: 1000px;
 }
 
@@ -38,37 +73,60 @@
   width: 100%;
   height: 100%;
   position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.5s ease;
+  transform-style: preserve-3d; /* Essencial para o efeito 3D */
+  transition: transform 0.6s;
+  border-radius: 12px;
+  box-shadow: 0 6px 0 rgba(0,0,0,0.2);
 }
 
-.card .inner.flipped .back {
-    display: none;
-}
-
-
-.flipped {
+.card .inner.flipped {
   transform: rotateY(180deg);
 }
 
-.front,
-.back {
+/* FACE DA CARTA (Frente e Verso) */
+.front, .back {
   width: 100%;
   height: 100%;
   position: absolute;
-  backface-visibility: hidden;
+  top: 0;
+  left: 0;
+  backface-visibility: hidden; /* Isso impede que a carta "suma" ao girar */
   border-radius: 12px;
-  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid white;
+  box-sizing: border-box;
 }
 
+/* Lado da Imagem (Fica "atrás" inicialmente) */
 .front {
   transform: rotateY(180deg);
-  background: white;
+  background: #ffffff;
 }
 
 .front img {
-  width: 80%;
-  height: 80%;
+  width: 70%;
+  height: 70%;
   object-fit: contain;
-  padding: 8px;
+}
+
+/* Lado da Interrogação (Capa) */
+.back {
+  background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 100%);
+  color: white;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+}
+
+@media (max-width: 700px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 400px;
+        gap: 10px;
+    }
+    
+    .score { font-size: 1rem; }
+    .reset-btn { font-size: 0.9rem; }
 }
