@@ -17,7 +17,7 @@ const cards = [
     { id: 4, name: 'recycleBin', img: RecycleBin },
     { id: 5, name: 'trashCan', img: TrashCan },
     { id: 6, name: 'plant', img: Plant },
-    
+
 ]
 
 export default function MemoryGame() {
@@ -28,6 +28,8 @@ export default function MemoryGame() {
 
     const [moves, setMoves] = useState(0);
     const [matches, setMatches] = useState(0);
+
+    const [selectedIndex, setSelectedIndex] = useState(0);
 
     function shuffleCards() {
         const duplicated = [...cards, ...cards]
@@ -72,6 +74,46 @@ export default function MemoryGame() {
         }
     }, [firstChoice, secondChoice]);
 
+    useEffect(() => {
+        function handleKey(e) {
+            if (!deck.length) return;
+
+            const total = deck.length;
+            const cols = 6; // sua grade é 2x6
+            let newIndex = selectedIndex;
+
+            switch (e.key) {
+                case "ArrowRight":
+                    newIndex = (selectedIndex + 1) % total;
+                    break;
+
+                case "ArrowLeft":
+                    newIndex = (selectedIndex - 1 + total) % total;
+                    break;
+
+                case "ArrowDown":
+                    newIndex = (selectedIndex + cols) % total;
+                    break;
+
+                case "ArrowUp":
+                    newIndex = (selectedIndex - cols + total) % total;
+                    break;
+
+                case " ":
+                case "Enter":
+                    e.preventDefault();
+                    handleChoice(deck[selectedIndex]);
+                    return;
+            }
+
+            setSelectedIndex(newIndex);
+        }
+
+        window.addEventListener("keydown", handleKey);
+        return () => window.removeEventListener("keydown", handleKey);
+    }, [deck, selectedIndex, handleChoice]);
+
+
     function resetTurn() {
         setFirstChoice(null);
         setSecondChoice(null);
@@ -83,51 +125,57 @@ export default function MemoryGame() {
     }, []);
 
     return (
-            <>
-        <ButtonBack />
-        <div className="memory-container">
-            <h2>Jogo da Memória</h2>
+        <>
+            <ButtonBack />
+            <div className="memory-container">
+                <h2>Jogo da Memória</h2>
 
-            <div className="score">
-                🧠 Jogadas: {moves} | ⭐ Pares encontrados: {matches}/6
+                <div className="score">
+                    🧠 Jogadas: {moves} | ⭐ Pares encontrados: {matches}/6
+                </div>
+
+                {matches === 6 && (
+                    <h3>🎉 Parabéns! Você encontrou todos os 6 pares! 🎉</h3>
+                )}
+
+                <button onClick={shuffleCards} className="reset-btn">
+                    Reiniciar
+                </button>
+
+                <div className="grid">
+                    {deck.map((card, index) => (
+                        <Card
+                            key={card.uuid}
+                            card={card}
+                            index={index}
+                            selected={index === selectedIndex}
+                            handleChoice={handleChoice}
+                            flipped={
+                                card === firstChoice ||
+                                card === secondChoice ||
+                                card.matched
+                            }
+                        />
+                    ))}
+
+                </div>
             </div>
-
-            {matches === 6 && (
-                <h3>🎉 Parabéns! Você encontrou todos os 6 pares! 🎉</h3>
-            )}
-
-            <button onClick={shuffleCards} className="reset-btn">
-                Reiniciar
-            </button>
-
-            <div className="grid">
-                {deck.map(card => (
-                    <Card
-                        key={card.uuid}
-                        card={card}
-                        handleChoice={handleChoice}
-                        flipped={
-                            card === firstChoice ||
-                            card === secondChoice ||
-                            card.matched
-                        }
-                    />
-                ))}
-            </div>
-        </div>
-            </>
+        </>
     );
 }
 
-function Card({ card, handleChoice, flipped }) {
+function Card({ card, handleChoice, flipped, selected }) {
     return (
-        <div className="card">
+        <div className={`card ${selected ? "selected" : ""}`}>
             <div className={`inner ${flipped ? "flipped" : ""}`}>
                 <div className="front">
                     <img src={card.img} alt={card.name} />
                 </div>
 
-                <div className="back" onClick={() => handleChoice(card)}>
+                <div
+                    className="back"
+                    onClick={() => handleChoice(card)}
+                >
                     ?
                 </div>
             </div>

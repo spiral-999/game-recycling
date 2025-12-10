@@ -7,11 +7,12 @@
     box-sizing: border-box;
 }
 
-.question-card, .result-card {
+.question-card,
+.result-card {
     background: white;
     padding: 2rem;
     border-radius: 20px;
-    box-shadow: 0 8px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 8px 0 rgba(0, 0, 0, 0.1);
     max-width: 500px;
     width: 100%;
     text-align: center;
@@ -47,7 +48,8 @@
     justify-content: center;
 }
 
-.btn-true, .btn-false {
+.btn-true,
+.btn-false {
     flex: 1;
     padding: 15px;
     font-size: 1.1rem;
@@ -57,17 +59,36 @@
     font-weight: bold;
     color: white;
     transition: transform 0.1s;
-    box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
 }
 
-.btn-true { background-color: #4caf50; } /* Verde */
-.btn-true:active { transform: translateY(4px); box-shadow: none; }
+.btn-true {
+    background-color: #4caf50;
+}
 
-.btn-false { background-color: #f44336; } /* Vermelho */
-.btn-false:active { transform: translateY(4px); box-shadow: none; }
+/* Verde */
+.btn-true:active {
+    transform: translateY(4px);
+    box-shadow: none;
+}
 
-.text-green { color: #2e7d32; }
-.text-red { color: #c62828; }
+.btn-false {
+    background-color: #f44336;
+}
+
+/* Vermelho */
+.btn-false:active {
+    transform: translateY(4px);
+    box-shadow: none;
+}
+
+.text-green {
+    color: #2e7d32;
+}
+
+.text-red {
+    color: #c62828;
+}
 
 .progress {
     margin-top: 20px;
@@ -76,7 +97,11 @@
 }
 
 /* Resultado */
-.mascot-big { width: 150px; margin-bottom: 20px; }
+.mascot-big {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
 .btn-restart {
     background: #ffeb3b;
     color: #333;
@@ -86,4 +111,15 @@
     font-size: 1.1rem;
     font-weight: bold;
     cursor: pointer;
+}
+
+/* Destaque para botão selecionado via teclado */
+.selected {
+    outline: 4px solid #ffeb3b;
+    transform: scale(1.05);
+}
+
+.btn-true,
+.btn-false {
+    transition: transform 0.15s, outline 0.15s;
 }

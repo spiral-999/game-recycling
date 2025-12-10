@@ -55,14 +55,44 @@ export default function CorrectRecyclingBin() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [score, setScore] = useState(0);
     const [finished, setFinished] = useState(false);
-    
+
     // Estados para Feedback Visual
     const [feedbackType, setFeedbackType] = useState(null); // 'success' ou 'error'
     const [feedbackMessage, setFeedbackMessage] = useState("");
 
+    const binOrder = ["blue", "red", "yellow", "green", "brown"]; // ordem fixa
+
+    const [selectedBinIndex, setSelectedBinIndex] = useState(0);
+
+
     useEffect(() => {
         restartGame();
     }, []);
+
+    useEffect(() => {
+        function handleKeyPress(e) {
+            if (finished || feedbackType) return;
+
+            if (e.key === "ArrowRight") {
+                setSelectedBinIndex(prev => (prev + 1) % binOrder.length);
+            }
+            if (e.key === "ArrowLeft") {
+                setSelectedBinIndex(prev =>
+                    (prev - 1 + binOrder.length) % binOrder.length
+                );
+            }
+
+            // Confirmar com espaço ou Enter
+            if (e.code === "Space" || e.key === "Enter") {
+                checkBin(binOrder[selectedBinIndex]);
+            }
+        }
+
+        window.addEventListener("keydown", handleKeyPress);
+        return () => window.removeEventListener("keydown", handleKeyPress);
+    }, [finished, feedbackType, selectedBinIndex]);
+
+
 
     function restartGame() {
         setShuffledItems(shuffle(items));
@@ -93,7 +123,7 @@ export default function CorrectRecyclingBin() {
         setTimeout(() => {
             setFeedbackType(null);
             setFeedbackMessage("");
-            
+
             if (currentIndex + 1 < shuffledItems.length) {
                 setCurrentIndex(prev => prev + 1);
             } else {
@@ -108,8 +138,6 @@ export default function CorrectRecyclingBin() {
         <>
             <ButtonBack />
             <div className="correct-bin-container">
-                
-                {/* Cabeçalho */}
                 {!finished && (
                     <div className="game-header">
                         <h2>Separe o Lixo!</h2>
@@ -119,7 +147,6 @@ export default function CorrectRecyclingBin() {
                     </div>
                 )}
 
-                {/* Feedback Overlay (Aparece na tela toda) */}
                 {feedbackType && (
                     <div className={`feedback-overlay ${feedbackType}`}>
                         <div className="feedback-content">
@@ -131,7 +158,6 @@ export default function CorrectRecyclingBin() {
                     </div>
                 )}
 
-                {/* Área do Jogo */}
                 {finished ? (
                     <div className="result-area">
                         <h3>🎉 Limpeza Completa!</h3>
@@ -144,29 +170,34 @@ export default function CorrectRecyclingBin() {
                             <img
                                 src={currentItem.img}
                                 alt={currentItem.name}
-                                className={`item-img ${feedbackType ? 'hidden' : ''}`} 
+                                className={`item-img ${feedbackType ? 'hidden' : ''}`}
                             />
                         )}
                     </div>
                 )}
 
-                {/* Lixeiras (5 opções agora) */}
                 <div className="bins">
-                    <div className="bin-item" onClick={() => checkBin("blue")}>
-                        <img src={BinBlue} alt="Papel" />
-                    </div>
-                    <div className="bin-item" onClick={() => checkBin("red")}>
-                        <img src={BinRed} alt="Plástico" />
-                    </div>
-                    <div className="bin-item" onClick={() => checkBin("yellow")}>
-                        <img src={BinYellow} alt="Metal" />
-                    </div>
-                    <div className="bin-item" onClick={() => checkBin("green")}>
-                        <img src={BinGreen} alt="Vidro" />
-                    </div>
-                    <div className="bin-item" onClick={() => checkBin("brown")}>
-                        <img src={BinBrown} alt="Orgânico" />
-                    </div>
+                    {binOrder.map((bin, index) => (
+                        <div
+                            key={bin}
+                            className={`bin-item ${index === selectedBinIndex ? "selected" : ""}`}
+                            onClick={() => {
+                                setSelectedBinIndex(index);
+                                checkBin(bin);
+                            }}
+                        >
+                            <img
+                                src={
+                                    bin === "blue" ? BinBlue :
+                                        bin === "red" ? BinRed :
+                                            bin === "yellow" ? BinYellow :
+                                                bin === "green" ? BinGreen :
+                                                    BinBrown
+                                }
+                                alt={binNames[bin]}
+                            />
+                        </div>
+                    ))}
                 </div>
             </div>
         </>

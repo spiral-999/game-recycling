@@ -67,6 +67,8 @@ const allQuestions = [ // perguntas do quizz aq, precisa só de um id, o texto d
 ];
 
 export default function RecyclingQuiz() {
+    const [selectedOption, setSelectedOption] = useState(0);
+
     const [questions, setQuestions] = useState([]);
     const [current, setCurrent] = useState(0);
     const [score, setScore] = useState(0);
@@ -107,6 +109,36 @@ export default function RecyclingQuiz() {
         }, 3000);
     }
 
+    useEffect(() => {
+        function handleKeyPress(e) {
+            if (answerStatus) return; // impede navegação durante explicação
+            if (showResult) return;
+
+            // seta direita → vai para FALSO
+            if (e.key === "ArrowRight") {
+                setSelectedOption(1);
+            }
+
+            // seta esquerda → vai para VERDADEIRO
+            if (e.key === "ArrowLeft") {
+                setSelectedOption(0);
+            }
+
+            // espaço → confirma
+            if (e.code === "Space") {
+                handleAnswer(selectedOption === 0);
+            }
+        }
+
+        window.addEventListener("keydown", handleKeyPress);
+        return () => window.removeEventListener("keydown", handleKeyPress);
+    }, [selectedOption, answerStatus, showResult, current]);
+
+    useEffect(() => {
+        setSelectedOption(0);
+    }, [current]);
+
+
     if (questions.length === 0) return null;
 
     const question = questions[current];
@@ -120,11 +152,11 @@ export default function RecyclingQuiz() {
                         <img src={Mascot} alt="Mascote" className="mascot-big" />
                         <h2>Quiz Finalizado!</h2>
                         <p>Você acertou <strong>{score}</strong> de <strong>{questions.length}</strong>!</p>
-                        
+
                         <div className="feedback-final">
-                            {score === questions.length ? "🏆 Perfeito! Você sabe tudo de reciclagem!" : 
-                             score >= 7 ? "🌟 Muito bem! Você aprendeu direitinho!" : 
-                             "📚 Que tal visitar a Galeria da Reciclagem de novo?"}
+                            {score === questions.length ? "🏆 Perfeito! Você sabe tudo de reciclagem!" :
+                                score >= 7 ? "🌟 Muito bem! Você aprendeu direitinho!" :
+                                    "📚 Que tal visitar a Galeria da Reciclagem de novo?"}
                         </div>
 
                         <button onClick={restart} className="btn-restart">Jogar Novamente</button>
@@ -147,19 +179,23 @@ export default function RecyclingQuiz() {
 
                         {!answerStatus && (
                             <div className="buttons-area">
-                                <button 
-                                    className="btn-true" 
-                                    onClick={() => handleAnswer(true)}>
+                                <button
+                                    className={`btn-true ${selectedOption === 0 ? "selected" : ""}`}
+                                    onClick={() => handleAnswer(true)}
+                                >
                                     VERDADEIRO 👍
                                 </button>
-                                <button 
-                                    className="btn-false" 
-                                    onClick={() => handleAnswer(false)}>
+
+                                <button
+                                    className={`btn-false ${selectedOption === 1 ? "selected" : ""}`}
+                                    onClick={() => handleAnswer(false)}
+                                >
                                     FALSO 👎
                                 </button>
                             </div>
+
                         )}
-                        
+
                         <div className="progress">
                             Pergunta {current + 1} de {questions.length}
                         </div>

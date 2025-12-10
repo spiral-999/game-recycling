@@ -151,3 +151,18 @@
     from { transform: scale(0.5); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
+
+.bin-item.selected {
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 10px rgba(255, 255, 0, 0.7));
+    transition: transform 0.2s, filter 0.2s;
+}
+
+.bin-item.selected img {
+    animation: pulse 0.4s infinite alternate;
+}
+
+@keyframes pulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+}

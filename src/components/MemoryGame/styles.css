@@ -103,6 +103,7 @@
 .front {
   transform: rotateY(180deg);
   background: #ffffff;
+  transform: rotateY(180deg) translateZ(1px);
 }
 
 .front img {
@@ -118,6 +119,7 @@
   font-size: 2.5rem;
   font-weight: bold;
   text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+  transform: translateZ(1px);
 }
 
 @media (max-width: 700px) {
@@ -129,4 +131,11 @@
     
     .score { font-size: 1rem; }
     .reset-btn { font-size: 0.9rem; }
+}
+
+.card.selected {
+  outline: 4px solid #ffeb3b;
+  outline-offset: 4px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px #ffeb3b;
 }
