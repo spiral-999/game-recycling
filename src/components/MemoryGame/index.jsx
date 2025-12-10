@@ -7,7 +7,7 @@ import PaperBag from '../../assets/paper-bag.png';
 import RecycleBin from '../../assets/recycle-bin.png';
 import TrashCan from '../../assets/trash-can.png';
 import Plant from '../../assets/plant.png';
-import { useNavigate } from "react-router-dom";
+import ButtonBack from "../ButtonBack";
 
 
 const cards = [
@@ -28,8 +28,6 @@ export default function MemoryGame() {
 
     const [moves, setMoves] = useState(0);
     const [matches, setMatches] = useState(0);
-
-    const navigate = useNavigate()
 
     function shuffleCards() {
         const duplicated = [...cards, ...cards]
@@ -86,9 +84,7 @@ export default function MemoryGame() {
 
     return (
             <>
-            <button className="back-btn" onClick={() => navigate("/")}>
-                ⬅ Voltar
-            </button>
+        <ButtonBack />
         <div className="memory-container">
             <h2>Jogo da Memória</h2>
 
