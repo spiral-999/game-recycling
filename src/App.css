@@ -1,74 +1,184 @@
-body {
+/* RESET E FUNDO */
+html, body {
   margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* Sem scroll */
   font-family: "Comic Sans MS", "Poppins", sans-serif;
-  background: linear-gradient(90deg, #a8ffb5, #d4ffe1);
+  background: linear-gradient(135deg, #a8ffb5 0%, #d4ffe1 100%);
   color: #1b4332;
 }
 
-/* HEADER ------------------------------------------------------ */
+#root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 
+/* Bolhas de fundo */
+body::before, body::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  z-index: -1;
+  background: rgba(255, 255, 255, 0.4);
+  animation: floatBackground 10s infinite alternate ease-in-out;
+}
+body::before { width: 250px; height: 250px; top: -40px; left: -40px; }
+body::after { width: 180px; height: 180px; bottom: 40px; right: -20px; animation-duration: 15s; }
+
+/* HEADER MAIOR E MAIS DESTACADO */
 .header {
   text-align: center;
-  padding: 3rem 1rem 2rem;
-  color: #1b4332;
-  animation: fadeIn 0.8s ease-in-out;
+  padding: 3vh 1rem 1vh; /* Mais espaço no topo */
+  flex-shrink: 0;
+  animation: bounceIn 0.8s ease;
 }
 
 .title {
-  font-size: 3rem;
+  font-size: clamp(3rem, 6vw, 4.5rem); /* Aumentei bastante */
   margin: 0;
-  text-shadow: 2px 2px #ffffff;
+  line-height: 1.1;
+  text-shadow: 4px 4px 0px #ffffff;
 }
 
-.highlight {
-  color: #1a9d5c;
-}
+.highlight { color: #2e7d32; }
 
 .subtitle {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 2vw, 1.2rem);
   margin-top: 0.5rem;
-  color: #245c44;
+  color: #1b4332;
   font-weight: bold;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 4px 15px;
+  border-radius: 20px;
+  display: inline-block;
 }
 
-/* MENU BUTTONS ------------------------------------------------ */
-
-.menu {
+/* CONTAINER (Flexível para caber tudo) */
+.menu-container {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 1.5rem;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  gap: 20px;
 }
 
-/* Botão estilo gamificado para crianças */
-.menu-button {
-  width: 300px;
-  padding: 1.2rem;
-  font-size: 1.4rem;
-  font-weight: bold;
-  background: #fff176; /* amarelo suave */
-  color: #4a3f00;
-  border: 3px solid #ffca28;
+/* FOOTER (CRÉDITOS) */
+.footer {
+  text-align: center;
+  padding: 10px;
+  font-size: 0.8rem;
+  color: #1b5e20;
+  background: rgba(255, 255, 255, 0.4);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footer p {
+  margin: 2px 0;
+}
+
+/* CARD DE ESTUDO */
+.study-section { width: 100%; }
+
+.study-card {
+  background: linear-gradient(135deg, #29b6f6 0%, #0288d1 100%);
   border-radius: 20px;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
   cursor: pointer;
-  box-shadow: 0 6px #f4a261;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  border: 4px solid #ffffff;
+  box-shadow: 0 6px 0px rgba(1, 87, 155, 0.3);
+  transition: transform 0.1s;
+  animation: pulseButton 3s infinite;
 }
 
-.menu-button:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px #e76f51;
-}
-
-/* Efeito de “clicado” estilo game */
-.menu-button:active {
+.study-card:active {
   transform: translateY(3px);
-  box-shadow: 0 3px #e76f51;
+  box-shadow: 0 2px 0px rgba(1, 87, 155, 0.3);
 }
 
-/* ANIMAÇÕES --------------------------------------------------- */
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
+.study-icon {
+  font-size: 2.2rem;
+  background: rgba(255,255,255,0.25);
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-right: 15px;
+  border: 2px solid white;
 }
+
+.study-info h2 { margin: 0; font-size: 1.2rem; text-transform: uppercase; }
+.study-info p { margin: 0; font-size: 0.9rem; }
+.arrow-icon { font-size: 1.8rem; animation: slideRight 0.8s infinite alternate; }
+
+/* SEÇÃO DE JOGOS */
+.games-section {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 15px;
+  border-radius: 20px;
+  border: 2px dashed #ffffff;
+}
+
+.section-title {
+  color: #1b4332;
+  margin: 0 0 10px 0;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+.games-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.game-card {
+  background: white;
+  border: 2px solid #66bb6a;
+  padding: 10px 15px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #1b4332;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #43a047;
+  transition: all 0.1s;
+}
+
+.game-card:hover {
+  background-color: #e8f5e9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #43a047;
+}
+
+.game-card:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #43a047;
+}
+
+.game-emoji { font-size: 1.5rem; margin-right: 12px; }
+
+/* ANIMAÇÕES */
+@keyframes bounceIn { 0% { transform: scale(0.5); opacity: 0; } 60% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
+@keyframes slideRight { from { transform: translateX(0); } to { transform: translateX(5px); } }
+@keyframes floatBackground { from { transform: translateY(0); } to { transform: translateY(20px); } }
+@keyframes pulseButton { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
