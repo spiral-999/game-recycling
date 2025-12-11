@@ -6,7 +6,7 @@ import Mascot from "../../assets/trash-can.png";
 const allQuestions = [ // perguntas do quizz aq, precisa só de um id, o texto da pergunta, se a resposta é verdadeiro ou falso e o texto que vai aparecer na explicação
     {
         id: 1,
-        text: "Casca de banana e restos de maçã devem ir na lixeira vermelha (Plástico).",
+        text: "Casca de banana e restos de maçã devem ir na lixeira Vermelha",
         isTrue: false,
         explanation: "Falso! Restos de comida são lixo orgânico e vão na lixeira Marrom."
     },
@@ -60,7 +60,7 @@ const allQuestions = [ // perguntas do quizz aq, precisa só de um id, o texto d
     },
     {
         id: 10,
-        text: "O lixo da lixeira Marrom (Orgânico) pode virar adubo para as plantas.",
+        text: "O lixo da lixeira Marrom pode virar adubo para as plantas.",
         isTrue: true,
         explanation: "Verdade! Esse processo se chama compostagem."
     }
